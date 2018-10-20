@@ -27,5 +27,5 @@ def e(theta, phi):
     return first * second * (num/den)
 
 fig = threedee.plot(e(theta, phi), theta, phi)
-mlab.title(figure=fig, text="3D plot!!!!")
+mlab.title(figure=fig, text="This is a title")
 threedee.show()

@@ -12,5 +12,6 @@ def U(thetas):
     const = eta / (8 * pi ** 2)
     return const * (np.sin(thetas) ** 3)
 
-polar.plot(angles = thetas, magnitudes = U(thetas))
+fig = polar.plot(angles = thetas, magnitudes = U(thetas))
+fig.set_title("This is a title")
 plt.show()

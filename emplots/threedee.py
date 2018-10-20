@@ -18,7 +18,7 @@ def plot(r, theta, phi):
     y = y_from_spherical(r_dB, theta, phi)
     z = z_from_spherical(r_dB, theta)
 
-    fig = mlab.figure(1, bgcolor=(1,1,1), fgcolor=(0,0,0))
+    scene = mlab.figure(1, bgcolor=(1,1,1), fgcolor=(0,0,0))
     mlab.clf()
 
     obj = mlab.mesh(x, y, z, scalars=r_dB, colormap='jet')
@@ -27,7 +27,7 @@ def plot(r, theta, phi):
     obj.contour.filled_contours = True
     obj.contour.number_of_contours = 20
 
-    return fig
+    return scene
 
 def show():
     mlab.show()
