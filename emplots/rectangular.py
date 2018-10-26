@@ -77,7 +77,7 @@ def plot_min_mean_max(angles, min, mean, max, axes=None):
     max : array-like
         The upper-bounding values of the magnitudes of the radiation pattern
 
-    ax : matplotlib.axes.Axes
+    axes : matplotlib.axes.Axes
         The axis on which the plot will be generated
 
     Returns
@@ -90,8 +90,8 @@ def plot_min_mean_max(angles, min, mean, max, axes=None):
     if all(len(lst) != ref_array_len for lst in [min, mean, max]):
         raise ValueError("All arrays must be the same length")
 
-    if ax is None:
-        ax = plot.gca()
+    if axes is None:
+        axes = plot.gca()
 
     min_norm_to_mean = min / np.amax(mean)
     max_norm_to_mean = max / np.amax(mean)
@@ -99,16 +99,16 @@ def plot_min_mean_max(angles, min, mean, max, axes=None):
     min_dB = 10*np.log10(abs(min_norm_to_mean))
     max_dB = 10*np.log10(abs(max_norm_to_mean))
 
-    _plot_magnitude(ax, angles, min_dB, normalize=False, convertToDb=False, color='blue', label="min")
-    _plot_magnitude(ax, angles, mean, color='green', label="mean")
-    _plot_magnitude(ax, angles, max_dB, normalize=False, convertToDb=False, color='orange', label="max")
+    _plot_magnitude(axes, angles, min_dB, normalize=False, convertToDb=False, color='blue', label="min")
+    _plot_magnitude(axes, angles, mean, color='green', label="mean")
+    _plot_magnitude(axes, angles, max_dB, normalize=False, convertToDb=False, color='orange', label="max")
 
     centered_angles = angles - pi
     # There's some issue in which only having one of these only shades half the graph
-    ax.fill_between(centered_angles, min_dB, max_dB, where=min < max, facecolor='green', alpha=0.25)
-    ax.fill_between(centered_angles, min_dB, max_dB, where=max <= min, facecolor='green', alpha=0.25)
+    axes.fill_between(centered_angles, min_dB, max_dB, where=min < max, facecolor='green', alpha=0.25)
+    axes.fill_between(centered_angles, min_dB, max_dB, where=max <= min, facecolor='green', alpha=0.25)
 
-    return ax
+    return axes
 
 def _plot_from_csv(csv_file):
     """
