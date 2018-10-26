@@ -39,11 +39,58 @@ conda activate <name of environment>
 conda install -c menpo mayavi
 ```
 
+Setup
+-----
+The simplest way to use this package is to clone this repository, ensure
+the dependencies are met, and run
+
+```
+python setup.py install
+```
+
+then you can use emplots just like you would any other python package
+
+```python
+import emplots
+#OR
+import emplots.rectangular
+#OR
+from emplots import threedee
+```
+
 Examples
 --------
 
 ### Rectangular Plot
-TODO
+This example plots the radiation pattern of a have wavelength dipole
+
+```python
+from emplots import rectangular
+import numpy as np
+
+pi = np.pi
+eta = 120 * pi
+
+thetas = np.arange(0, 2*pi, pi/180)
+
+def U(thetas):
+    const = eta / (8 * pi ** 2)
+    return const * (np.sin(thetas) ** 3)
+
+fig = rectangular.plot(angles, U(thetas))
+
+plt.tight_layout()
+plt.show()
+```
+TODO: add output image
+
+Note: the function polar.plot returns a matplotlib figure. This allows you to
+manipulate the figure by adding titles, scaling axes, etc. For example, to
+add a title, you would call
+
+```python
+fig.set_title("Half-wavelength Dipole")
+```
 
 ### Polar Plot
 This example plots one cutplane of the radiation pattern of a have wavelength dipole
