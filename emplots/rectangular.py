@@ -4,7 +4,7 @@ import scipy as sp
 
 pi = np.pi
 
-def plot(axes=None, angles=None, magnitudes=None, csv_file=None, **kwargs):
+def plot(axes=None, angles=None, magnitudes=None, csv_file=None, normalize=True, convertToDb=True, **kwargs):
     """Takes in a number of different possible arguments and generates a plot.
 
     The arguments can either be an array of angles, AND an array of magnitudes,
@@ -18,6 +18,15 @@ def plot(axes=None, angles=None, magnitudes=None, csv_file=None, **kwargs):
     :type magnitudes: array-like
     :csv_file: The path to a csv_file containing data to plot
     :type csv_file: str or path
+    :param normalize: This function expects to have to normalize the data passed to it. If the
+        data is already normalized, pass False, and the function will leave the
+        data as is.
+    :type normalize: bool
+    :param convertToDb: In addition to expecting to normalize the data passed to it, this
+        function also expects to have to convert the magnitudes to dB (after
+        normalization). If this is already done, pass False, and the function
+        will leave the data as is.
+    :type convertToDb: bool
 
     :param kwargs:
         *kwargs* are those expected by matplotlib. In this way, you can specify
@@ -45,7 +54,7 @@ def plot(axes=None, angles=None, magnitudes=None, csv_file=None, **kwargs):
     if csv_file:
         pass # TODO
     else:
-        ax = _plot_magnitude(axes, angles, magnitudes, **kwargs)
+        ax = _plot_magnitude(axes, angles, magnitudes, normalize, convertToDb, **kwargs)
 
     return ax
 
@@ -102,7 +111,7 @@ def _plot_from_csv(csv_file):
     # TODO
     pass
 
-def _plot_magnitude(ax, angles, magnitudes, normalize=True, convertToDb=True, **kwargs):
+def _plot_magnitude(ax, angles, magnitudes, normalize, convertToDb, **kwargs):
     """Takes two array like objects of equal dimension and generates a radiation pattern
 
     :param ax: The axis on which the plot will be generated
