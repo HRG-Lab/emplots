@@ -2,8 +2,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
-def plot(axes=None, angles=None, magnitudes=None, csv_file=None):
+def plot(axes=None, angles=None, magnitudes=None, csv_file=None, normalize=True, convertToDb=True, **kwargs):
     """Takes in a number of different possible arguments and generates a plot.
+
+    :param axes: The axis on which the plot will be generated. If None is passed, a new axis will be generated
+    :type axes: matplotlib.axes.Axes
+    :param angles: The angles over which there is data (The independent variable)
+    :type angles: array-like
+    :param magnitudes: The magnitudes of the radiation pattern
+    :type magnitudes: array-like
+    :csv_file: The path to a csv_file containing data to plot
+    :type csv_file: str or path
+
+    :param kwargs:
+        *kwargs* are those expected by matplotlib. In this way, you can specify
+        all the line properties you can pass to matplotlib's plot function.
+        For example if you pass `color='black'`, this will get passed to the
+        underlying matplotlib function and the line color will be black. Consult
+        matplotlibs documentation for more information.
+    :type kwargs: `matplotlib.axes.Line2D`
+
+    :returns: matplotlib.axes.Axes -- The axes with the newly generated plot.
+    :raises: ValueError
     """
 
     if angles is None and magnitudes is None and csv_file is None:
@@ -22,27 +42,60 @@ def plot(axes=None, angles=None, magnitudes=None, csv_file=None):
     if csv_file:
         pass
     else:
-        fig = _plot_magnitude(axes, angles, magnitudes)
+        fig = _plot_magnitude(axes, angles, magnitudes, normalize, convertToDb, **kwargs)
 
     return fig
 
 def _plot_from_csv(csv_file):
     """Takes a csv file and generates a radiation pattern
-    """
 
-def _plot_magnitude(ax, angles=None, magnitudes=None):
+    :param csv_file: path to csv file containing data to be plotted
+
+    :returns: matplotlib.axes.Axes -- The axes with the newly generated plot.
+        Returns the axes passed to the function. If no axes was passed, a new axes is created and returned
+    """
+    # TODO
+    pass
+
+def _plot_magnitude(ax, angles, magnitudes, normalize, convertToDb, **kwargs):
     """Takes two array like objects of equal dimension and generates a radiation pattern
 
-    This function takes raw magnitude values, normalizes them, then converts
-    to dB. It then plots them on the given axes, or a new one if None is passed
-    function.
+    :param ax: The axis on which the plot will be generated
+    :type ax: matplotlib.axes.Axes
+    :param angles: The angles over which there is data (The independent variable)
+    :type angles: array-like
+    :param magnitudes: The magnitudes of the radiation pattern
+    :type magnitudes: array-like
+    :param normalize: This function expects to have to normalize the data passed to it. If the
+        data is already normalized, pass False, and the function will leave the
+        data as is.
+    :type normalize: bool
+    :param convertToDb: In addition to expecting to normalize the data passed to it, this
+        function also expects to have to convert the magnitudes to dB (after
+        normalization). If this is already done, pass False, and the function
+        will leave the data as is.
+    :type convertToDb: bool
+
+    :param kwargs: kwargs are those expected by matplotlib. In this way, you can specify
+        all the line properties you can pass to matplotlib's plot function.
+        For example if you pass `color='black'`, this will get passed to the
+        underlying matplotlib function and the line color will be black. Consult
+        matplotlibs documentation for more information.
+    :type kwargs: matplotlib.axes.Line2D
+
+    :returns: matplotlib.axes.Axes -- The axes with the newly generated plot.
+    :raises: ValueError
     """
 
     if len(angles) != len(magnitudes):
         raise ValueError("Array lengths must be equal")
 
-    normalizedMagnitudes = magnitudes / np.amax(magnitudes)
-    dbMagnitudes = 10 * np.log10(abs(normalizedMagnitudes))
+    normalizedMagnitudes = magnitudes
+    dbMagnitudes = magnitudes
+    if normalize:
+        normalizedMagnitudes = magnitudes / np.amax(magnitudes)
+    if convertToDb:
+        dbMagnitudes = 10 * np.log10(abs(normalizedMagnitudes))
 
     if ax is None:
         ax = plt.gca(projection='polar')

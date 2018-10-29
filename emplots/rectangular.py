@@ -66,14 +66,13 @@ def plot_min_mean_max(angles, min, mean, max, axes=None):
     :param min: The lower-bounding values of the magnitudes of the radiation pattern
     :type min: array-like
     :param mean: The average values of the magnitudes of the radiation pattern
-    :type mean : array-like
+    :type mean: array-like
     :param max: The upper-bounding values of the magnitudes of the radiation pattern
     :type max: array-like
     :param axes: The axis on which the plot will be generated
-    :type axes : matplotlib.axes.Axes
+    :type axes: matplotlib.axes.Axes
 
     :returns: matplotlib.axes.Axes -- The axes with the newly generated plot.
-        Returns the axes passed to the function. If no axes was passed, a new axes is created and returned
     :raises: ValueError
     """
     ref_array_len = len(angles)

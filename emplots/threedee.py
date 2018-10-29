@@ -8,6 +8,17 @@ cos = np.cos
 sin = np.sin
 
 def plot(r, theta, phi):
+    """ Generates a 3D plot of a radiation pattern.
+
+    :param r: r components of magnitude vector
+    :type r: numpy.ndarray
+    :param theta: theta components of magnitude vector
+    :type theta: numpy.ndarray
+    :param phi: phi components of magnitude vector
+    :type phi: numpy.ndarray
+
+    :returns: mayavi figure
+    """
     # normalize and convert to dB
     r0 = r / np.amax(r)
     r_dB = 10*np.log10(abs(r0))
