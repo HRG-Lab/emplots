@@ -1,3 +1,4 @@
 emplots/__pycache__/
 tests/__pycache__/
 *.pyc
+docs/build/
