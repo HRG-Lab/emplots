@@ -80,7 +80,7 @@ def plot_min_mean_max(angles, min, mean, max, axes=None):
         raise ValueError("All arrays must be the same length")
 
     if axes is None:
-        axes = plot.gca()
+        axes = plt.gca()
 
     min_norm_to_mean = min / np.amax(mean)
     max_norm_to_mean = max / np.amax(mean)
@@ -88,8 +88,11 @@ def plot_min_mean_max(angles, min, mean, max, axes=None):
     min_dB = 10*np.log10(abs(min_norm_to_mean))
     max_dB = 10*np.log10(abs(max_norm_to_mean))
 
+    min_dB = min_dB - np.amax(min_dB)
+    max_dB = max_dB - np.amax(max_dB)
+
     _plot_magnitude(axes, angles, min_dB, normalize=False, convertToDb=False, color='blue', label="min")
-    _plot_magnitude(axes, angles, mean, color='green', label="mean")
+    _plot_magnitude(axes, angles, mean, normalize=True, convertToDb=True, color='green', label="mean")
     _plot_magnitude(axes, angles, max_dB, normalize=False, convertToDb=False, color='orange', label="max")
 
     centered_angles = angles - pi
