@@ -142,12 +142,12 @@ def _plot_magnitude(ax, angles, magnitudes, normalize, convertToDb, **kwargs):
     if len(angles) != len(magnitudes):
         raise ValueError("Array lengths must be equal")
 
-    normalizedMagnitudes = magnitudes
-    dbMagnitudes = magnitudes
-    if normalize:
-        normalizedMagnitudes = magnitudes / np.amax(magnitudes)
+    dbMagnitudes = np.array(magnitudes)
     if convertToDb:
-        dbMagnitudes = 10 * np.log10(abs(normalizedMagnitudes))
+        dbMagnitudes = 10 * np.log10(abs(dbMagnitudes))
+    if normalize:
+        dbMagnitudes = dbMagnitudes - np.amax(dbMagnitudes) # Set maximum to 0dB
+
 
     # rearrange so that 0 is at the center of the graph
     centeredAngles = angles - pi
